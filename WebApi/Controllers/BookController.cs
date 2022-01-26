@@ -10,9 +10,7 @@ namespace WebApi.Controllers
     {
         // Dummy Data
         private static List<Book> BookList = new List<Book>(){
-            new Book{ ID =1, Title = "Lean Startup", GenreID=1, PageCount=200, PublishDate= new DateTime(2001,06,12) },
-            new Book{ ID =2, Title = "Herland", GenreID=2, PageCount=250, PublishDate= new DateTime(2010,05,23) },
-            new Book{ ID =3, Title = "Dune", GenreID=2, PageCount=540, PublishDate= new DateTime(2001,12,21) }
+            
         };
 
         [HttpGet] // sadece bir tane parametresiz get olabilir
