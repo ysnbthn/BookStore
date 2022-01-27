@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using WebApi.Controllers;
+using WebApi.Middlewares;
 
 namespace WebApi
 {
@@ -58,6 +59,9 @@ namespace WebApi
 
             app.UseAuthorization();
 
+            app.UseCustomExceptionMiddle();
+
+            // endpointler çalışmadan önce middleware koy
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
