@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.BookOperations.CreateBookCommand;
 using WebApi.BookOperations.DeleteBook;
@@ -18,17 +19,19 @@ namespace WebApi.Controllers
     {
         // dependency injection
         private readonly BookStoreDbContext _context;
+        private readonly IMapper _mapper;
         // readonly değişkenler sadece contructor içinde set edilebilirler
-        public BookController(BookStoreDbContext context)
+        public BookController(BookStoreDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet] // sadece bir tane parametresiz get olabilir
         public IActionResult GetBooks()
         {
             // tanımladığımız classdan metodu çağırdık
-            GetBooksQuery query = new GetBooksQuery(_context);
+            GetBooksQuery query = new GetBooksQuery(_context, _mapper);
             var result = query.Handle();
             // OK response'u içinde kitapları döndürdük
             return Ok(result);
@@ -40,7 +43,7 @@ namespace WebApi.Controllers
             BookDetailViewModel result;
             try
             {
-                GetBookDetailsQuery query = new GetBookDetailsQuery(_context);
+                GetBookDetailsQuery query = new GetBookDetailsQuery(_context, _mapper);
                 query.BookID = id;
                 result = query.Handle();
             }
@@ -66,7 +69,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                CreateBookCommand command = new CreateBookCommand(_context);
+                CreateBookCommand command = new CreateBookCommand(_context, _mapper);
                 command.Model = newBook;
                 command.Handle();
             }
