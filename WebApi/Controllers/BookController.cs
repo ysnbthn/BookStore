@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.BookOperations.CreateBookCommand;
+using WebApi.BookOperations.CreateBook;
 using WebApi.BookOperations.DeleteBook;
 using WebApi.BookOperations.GetBookDetail;
 using WebApi.BookOperations.GetBooks;
@@ -43,8 +45,10 @@ namespace WebApi.Controllers
             BookDetailViewModel result;
             try
             {
-                GetBookDetailsQuery query = new GetBookDetailsQuery(_context, _mapper);
+                GetBookDetailQuery query = new GetBookDetailQuery(_context, _mapper);
                 query.BookID = id;
+                GetBookDetailQueryValidator validator = new GetBookDetailQueryValidator();
+                validator.ValidateAndThrow(query);
                 result = query.Handle();
             }
             catch (Exception ex)
@@ -67,11 +71,26 @@ namespace WebApi.Controllers
         [HttpPost]
         public IActionResult AddBook([FromBody] CreateBookModel newBook)
         {
+            CreateBookCommand command = new CreateBookCommand(_context, _mapper);
             try
             {
-                CreateBookCommand command = new CreateBookCommand(_context, _mapper);
                 command.Model = newBook;
+                // modeli doğrula
+                CreateBookCommandValidator validator = new CreateBookCommandValidator();
+                // Eğer model valid değilse hata bas
+                validator.ValidateAndThrow(command);
+                // Yoksa kaydet
                 command.Handle();
+
+                // böylede console a hata basılıyor
+                // if(!result.IsValid){
+                //     foreach(var item in result.Errors){
+                //         Console.WriteLine("Özellik " + item.PropertyName + "- Error Message: " + item.ErrorMessage);
+                //     }
+
+                // }else{
+                //     command.Handle();
+                // }
             }
             catch (Exception ex)
             {
@@ -91,6 +110,8 @@ namespace WebApi.Controllers
                 UpdateBookCommand command = new UpdateBookCommand(_context);
                 command.BookID = id;
                 command.Model = updatedBook;
+                UpdateBookCommandValidator validator = new UpdateBookCommandValidator();
+                validator.ValidateAndThrow(command);
                 command.Handle();
             }
             catch (Exception ex)
@@ -107,8 +128,9 @@ namespace WebApi.Controllers
             {
                 DeleteBookCommand command = new DeleteBookCommand(_context);
                 command.BookID = id;
+                DeleteBookCommandValidator validator = new DeleteBookCommandValidator();
+                validator.ValidateAndThrow(command);
                 command.Handle();
-
             }
             catch (Exception ex)
             {

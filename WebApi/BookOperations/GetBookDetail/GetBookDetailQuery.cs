@@ -5,12 +5,12 @@ using WebApi.Controllers;
 
 namespace WebApi.BookOperations.GetBookDetail
 {
-    public class GetBookDetailsQuery
+    public class GetBookDetailQuery
     {
         private readonly BookStoreDbContext _dbContext;
         private readonly IMapper _mapper;
         public int BookID { get; set; }
-        public GetBookDetailsQuery(BookStoreDbContext dbContext, IMapper mapper){
+        public GetBookDetailQuery(BookStoreDbContext dbContext, IMapper mapper){
             _dbContext = dbContext;
             _mapper = mapper;
         }
@@ -22,10 +22,6 @@ namespace WebApi.BookOperations.GetBookDetail
             }
             // book modeli BookDetail Modele dönüştürülüyor
             BookDetailViewModel vm = _mapper.Map<BookDetailViewModel>(book);
-            // vm.Title = book.Title;
-            // vm.PageCount = book.PageCount;
-            // vm.PublishDate = book.PublishDate.Date.ToString("dd/MM/yyyy");
-            // vm.Genre = ((GenreEnum)book.GenreID).ToString();
             return vm;
         }
 

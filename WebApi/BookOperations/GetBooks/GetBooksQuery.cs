@@ -23,7 +23,7 @@ namespace WebApi.BookOperations.GetBooks
             List<Book> booklist = _dbContext.Books.OrderBy(x => x.ID).ToList();
             // booklist BooksViewModel listesine dönüştürülüyor
             List<BooksViewModel> vm = _mapper.Map<List<BooksViewModel>>(booklist);
-
+            
             // Verileri çekip View Modele atadık
             //List<BooksViewModel> vm = new List<BooksViewModel>();
             // foreach(var book in booklist){
