@@ -20,10 +20,10 @@ namespace WebApi.Controllers
     public class BookController : ControllerBase
     {
         // dependency injection
-        private readonly BookStoreDbContext _context;
+        private readonly BookStoreDbContext _context; // dependency
         private readonly IMapper _mapper;
         // readonly değişkenler sadece contructor içinde set edilebilirler
-        public BookController(BookStoreDbContext context, IMapper mapper)
+        public BookController(BookStoreDbContext context, IMapper mapper) // dependency injection
         {
             _context = context;
             _mapper = mapper;
@@ -70,10 +70,10 @@ namespace WebApi.Controllers
             CreateBookCommandValidator validator = new CreateBookCommandValidator();
             // Eğer model valid değilse hata bas
             // artık try catch yerine custom middleware kullanıyoruz
-            validator.ValidateAndThrow(command); 
+            validator.ValidateAndThrow(command);
             // Yoksa kaydet
             command.Handle();
-            
+
             return Ok();
         }
 
@@ -98,7 +98,7 @@ namespace WebApi.Controllers
             DeleteBookCommandValidator validator = new DeleteBookCommandValidator();
             validator.ValidateAndThrow(command);
             command.Handle();
-            
+
             return Ok();
         }
 
