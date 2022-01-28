@@ -21,7 +21,7 @@ namespace WebApi.Application.BookOperations.Queries.GetBooks
         }
         // tüm bookları alma metodu
         public List<BooksViewModel> Handle(){
-            List<Book> booklist = _dbContext.Books.Include(x => x.Genre).OrderBy(x => x.ID).ToList();
+            List<Book> booklist = _dbContext.Books.Include(x => x.Genre).Include(x=>x.Author).OrderBy(x => x.ID).ToList();
             // booklist BooksViewModel listesine dönüştürülüyor
             List<BooksViewModel> vm = _mapper.Map<List<BooksViewModel>>(booklist);
             
@@ -46,5 +46,6 @@ namespace WebApi.Application.BookOperations.Queries.GetBooks
         public int PageCount { get; set; }
         public string PublishDate { get; set; }
         public string Genre { get; set; }
+        public string Author { get; set; }
     }
 }

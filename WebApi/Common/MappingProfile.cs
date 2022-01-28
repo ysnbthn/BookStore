@@ -16,16 +16,15 @@ namespace WebApi.Common
             // createbook model objesi book objesine maplenebilir/dönüştürülebilir
             CreateMap<CreateBookModel, Book>();
             // burda bir şey değişik ondan elle ayarlıyoruz
-            CreateMap<Book, BookDetailViewModel>().ForMember(
-                                        dest => dest.Genre, 
-                                        opt=> opt.MapFrom(src=> src.Genre.Name)
-                                        );
+            CreateMap<Book, BookDetailViewModel>()
+                                        .ForMember(dest => dest.Genre, opt => opt.MapFrom(src => src.Genre.Name))
+                                        .ForMember(dest2 => dest2.Author, opt2 => opt2.MapFrom(src => src.Author.AuthorName + " " + src.Author.AuthorSurname));
             // Tablo olduğu için Enuma gerek kalmadı artık direk tabloyu çekerken include ediyoruz
             // ordan direk genre.name ile ulaşabiliyoruz
-            CreateMap<Book, BooksViewModel>().ForMember(
-                                        dest => dest.Genre, 
-                                        opt=> opt.MapFrom(src=> src.Genre.Name)
-                                        );
+
+            CreateMap<Book, BooksViewModel>()
+                                        .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author.AuthorName + " " + src.Author.AuthorSurname))
+                                        .ForMember(dest => dest.Genre, opt => opt.MapFrom(src => src.Genre.Name));
             // Genre için aynılarını yap                                
             CreateMap<Genre, GenresViewModel>();
             CreateMap<Genre, GenreDetailViewModel>();

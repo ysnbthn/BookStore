@@ -24,6 +24,11 @@ namespace WebApi.Application.BookOperations.Commands.CreateBook
                 // API Controllerda olmadığımız için bunu yapabiliyoruz
                 throw new InvalidOperationException("Kitap zaten mevcut");
             }
+            
+            if(!_dbContext.Authors.Any(x=>x.AuthorID == Model.AuthorID)){
+                throw new InvalidOperationException("Böyle Bir Yazar Yok!");
+            }
+
             // Model ile gelen veriyi book objesine çevir
             book = _mapper.Map<Book>(Model); // new Book();
 
@@ -42,6 +47,7 @@ namespace WebApi.Application.BookOperations.Commands.CreateBook
         public int PageCount { get; set; }
         public DateTime PublishDate { get; set; }
         public int GenreID { get; set; }
+        public int AuthorID { get; set; }
 
     }
 }
