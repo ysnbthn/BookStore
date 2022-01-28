@@ -1,9 +1,10 @@
 using System;
 using System.Linq;
 using AutoMapper;
-using WebApi.Controllers;
+using WebApi.DBOperations;
+using WebApi.Entities;
 
-namespace WebApi.BookOperations.CreateBook
+namespace WebApi.Application.BookOperations.Commands.CreateBook
 {
     // create books API içindekileri aldık 
     // komple ayrı bir sınıf ve metod class olarak tanımladık

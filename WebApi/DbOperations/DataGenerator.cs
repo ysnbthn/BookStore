@@ -2,8 +2,9 @@ using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using WebApi.Entities;
 
-namespace WebApi.Controllers
+namespace WebApi.DBOperations
 {
     public class DataGenerator
     {
@@ -24,6 +25,13 @@ namespace WebApi.Controllers
                     new Book { Title = "Herland", GenreID = 2, PageCount = 250, PublishDate = new DateTime(2010, 05, 23) },
                     new Book { Title = "Dune", GenreID = 2, PageCount = 540, PublishDate = new DateTime(2001, 12, 21) }
                 );
+
+                context.Genres.AddRange(
+                    new Genre { ID = 1, Name = "Personal Growth" },
+                    new Genre { ID = 2, Name = "Sience Fiction" },
+                    new Genre { ID = 3, Name = "Romance" }
+                );
+
                 // eklediklerimi database'e kaydet
                 context.SaveChanges();
             }

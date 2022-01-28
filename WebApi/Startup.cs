@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using WebApi.Controllers;
+using WebApi.DBOperations;
 using WebApi.Middlewares;
 using WebApi.Services;
 

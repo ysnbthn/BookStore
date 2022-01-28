@@ -1,8 +1,10 @@
 using AutoMapper;
-using WebApi.BookOperations.CreateBook;
-using WebApi.BookOperations.GetBookDetail;
-using WebApi.BookOperations.GetBooks;
-using WebApi.Controllers;
+using WebApi.Application.BookOperations.Commands.CreateBook;
+using WebApi.Application.BookOperations.Queries.GetBookDetail;
+using WebApi.Application.BookOperations.Queries.GetBooks;
+using WebApi.Application.GenreOperations.Queries.GetGenreDetail;
+using WebApi.Application.GenreOperations.Queries.GetGenres;
+using WebApi.Entities;
 
 namespace WebApi.Common
 {
@@ -16,13 +18,18 @@ namespace WebApi.Common
             // burda bir şey değişik ondan elle ayarlıyoruz
             CreateMap<Book, BookDetailViewModel>().ForMember(
                                         dest => dest.Genre, 
-                                        opt=> opt.MapFrom(src=> ((GenreEnum)src.GenreID).ToString())
+                                        opt=> opt.MapFrom(src=> src.Genre.Name)
                                         );
-            // Bookta GenreID nin GenreEnumdaki karşılığını string yap BooksViewModeldeki Genreya ata
+            // Tablo olduğu için Enuma gerek kalmadı artık direk tabloyu çekerken include ediyoruz
+            // ordan direk genre.name ile ulaşabiliyoruz
             CreateMap<Book, BooksViewModel>().ForMember(
                                         dest => dest.Genre, 
-                                        opt=> opt.MapFrom(src=> ((GenreEnum)src.GenreID).ToString())
-                                        );;
+                                        opt=> opt.MapFrom(src=> src.Genre.Name)
+                                        );
+            // Genre için aynılarını yap                                
+            CreateMap<Genre, GenresViewModel>();
+            CreateMap<Genre, GenreDetailViewModel>();
+
         }
     }
 }

@@ -1,22 +1,26 @@
 using System;
 using System.Linq;
-using WebApi.Controllers;
+using WebApi.DBOperations;
+using WebApi.Entities;
 
-namespace WebApi.BookOperations.UpdateBook
+namespace WebApi.Application.BookOperations.Commands.UpdateBook
 {
     public class UpdateBookCommand
     {
         public UpdateBookModel Model { get; set; }
         private readonly BookStoreDbContext _dbContext;
         public int BookID { get; set; }
-        public UpdateBookCommand(BookStoreDbContext dbContext){
+        public UpdateBookCommand(BookStoreDbContext dbContext)
+        {
             _dbContext = dbContext;
         }
-        
-        public void Handle(){
-            
-            Book book = _dbContext.Books.SingleOrDefault(x=>x.ID == BookID);
-            if(book is null){
+
+        public void Handle()
+        {
+
+            Book book = _dbContext.Books.SingleOrDefault(x => x.ID == BookID);
+            if (book is null)
+            {
                 throw new InvalidOperationException("Güncelleyecek Kitap Bulunamadı!");
             }
             // tek tek kontrol et
@@ -32,7 +36,8 @@ namespace WebApi.BookOperations.UpdateBook
 
     // Her operasyon için ayrı model yapıyoruz
     // çünkü bazı operasyonlar birbirinden farklı veriler isteyebilirler
-    public class UpdateBookModel {
+    public class UpdateBookModel
+    {
         public string Title { get; set; }
         public int PageCount { get; set; }
         public DateTime PublishDate { get; set; }
@@ -42,4 +47,4 @@ namespace WebApi.BookOperations.UpdateBook
 }
 
 
-    
+

@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using WebApi.Common;
-using WebApi.Controllers;
+using Microsoft.EntityFrameworkCore;
+using WebApi.DBOperations;
+using WebApi.Entities;
 
-namespace WebApi.BookOperations.GetBooks
+namespace WebApi.Application.BookOperations.Queries.GetBooks
 {
     // get books API içindekileri aldık 
     // komple ayrı bir sınıf ve metod class olarak tanımladık
@@ -20,7 +21,7 @@ namespace WebApi.BookOperations.GetBooks
         }
         // tüm bookları alma metodu
         public List<BooksViewModel> Handle(){
-            List<Book> booklist = _dbContext.Books.OrderBy(x => x.ID).ToList();
+            List<Book> booklist = _dbContext.Books.Include(x => x.Genre).OrderBy(x => x.ID).ToList();
             // booklist BooksViewModel listesine dönüştürülüyor
             List<BooksViewModel> vm = _mapper.Map<List<BooksViewModel>>(booklist);
             
