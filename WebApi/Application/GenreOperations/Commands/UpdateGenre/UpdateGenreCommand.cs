@@ -29,7 +29,7 @@ namespace WebApi.Application.GenreOperations.Commands.UpdateGenre
                 throw new InvalidOperationException("Kitap Türü Zaten Mevcut");
             }
 
-            genre.Name = string.IsNullOrEmpty(Model.Name.Trim()) ? genre.Name : Model.Name;
+            genre.Name = string.IsNullOrEmpty(Model.Name.Trim()) || Model.Name == "string" ? genre.Name : Model.Name;
             genre.IsActive = Model.IsActive;
             _context.SaveChanges();
 

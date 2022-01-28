@@ -27,7 +27,7 @@ namespace WebApi.Application.BookOperations.Commands.UpdateBook
             book.GenreID = Model.GenreID != default ? Model.GenreID : book.GenreID;
             book.PageCount = Model.PageCount != default ? Model.PageCount : book.PageCount;
             book.PublishDate = Model.PublishDate != default ? Model.PublishDate : book.PublishDate;
-            book.Title = Model.Title != default ? Model.Title : book.Title;
+            book.Title = Model.Title != "string" ? Model.Title : book.Title;
 
             _dbContext.SaveChanges();
         }
