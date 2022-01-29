@@ -16,10 +16,10 @@ namespace WebApi.Controllers
     [Route("[controller]s")] // site/Genre + s şeklinde ulaşılacak  
     public class GenreController : ControllerBase
     {
-        private readonly BookStoreDbContext _context; // dependency
+        private readonly IBookStoreDbContext _context; // dependency
         private readonly IMapper _mapper;
 
-        public GenreController(IMapper mapper, BookStoreDbContext context = null)
+        public GenreController(IMapper mapper, IBookStoreDbContext context = null)
         {
             _mapper = mapper;
             _context = context;

@@ -17,10 +17,10 @@ namespace WebApi.Controllers
     public class BookController : ControllerBase
     {
         // dependency injection
-        private readonly BookStoreDbContext _context; // dependency
+        private readonly IBookStoreDbContext _context; // dependency
         private readonly IMapper _mapper;
         // readonly değişkenler sadece contructor içinde set edilebilirler
-        public BookController(BookStoreDbContext context, IMapper mapper) // dependency injection
+        public BookController(IBookStoreDbContext context, IMapper mapper) // dependency injection
         {
             _context = context;
             _mapper = mapper;

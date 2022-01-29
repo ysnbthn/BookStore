@@ -40,6 +40,8 @@ namespace WebApi
 
             // uygulamaya contexti göster ve inmemory olarak BookStoreDB database'i oluştur
             services.AddDbContext<BookStoreDbContext>(options => options.UseInMemoryDatabase(databaseName: "BookStoreDB"));
+            // interfaceli olan bookstore contexti her requestte çağırılması için servislere ekle
+            services.AddScoped<IBookStoreDbContext>(provider => provider.GetService<BookStoreDbContext>());
             // automapper ekle
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             // service'ı register et, her seferinde loga yazıcak ondan singleton
