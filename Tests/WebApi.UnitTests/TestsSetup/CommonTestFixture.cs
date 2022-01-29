@@ -13,9 +13,9 @@ namespace WebApi.UnitTests.TestsSetup
         // constructor ekle
         public CommonTestFixture()
         {
-            // kullanıcak sahte database'i inmemory olarak yap
+            // kullanıcak sahte database'i inmemory olarak ayarla
             var options = new DbContextOptionsBuilder<BookStoreDbContext>().UseInMemoryDatabase(databaseName:"BookStoreTestDB").Options;
-            // olan dbcontexti test içinde değişip başka db yaptık
+            // olan dbcontexti kullanarak test içinde başka db yaptık
             Context = new BookStoreDbContext(options);
             Context.Database.EnsureCreated(); // DB oluşturulduğundan emin ol
             Context.AddBooks(); // verileri ekle

@@ -1,19 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using WebApi.Controllers;
 using WebApi.DBOperations;
 using WebApi.Middlewares;
 using WebApi.Services;
@@ -32,6 +28,28 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // bunu controllerdan önce koyman lazım                            
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+            {
+                // tokenın nasıl çalışcağını belirttiğin yer
+                opt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    // özellikleri doğrula 
+                    ValidateAudience = true, // kişiler 
+                    ValidateIssuer = true,   // veren
+                    ValidateLifetime = true, // süre
+                    ValidateIssuerSigningKey = true, // tokenı imzalayıp kriptolıyacağımız yer
+                    // token Iconfigurationdan geliyor tokenı veren kişi kim onu yaz
+                    ValidIssuer = Configuration["Token:Issuer"],
+                    ValidAudience = Configuration["Token:Audience"],
+                    // keyin şifresini çözmek için burdaki configi kullancaksın
+                    // normalde identity provider komple ayrı bir proje oluyor
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:SecurityKey"])),
+                    // eğer kullanıcı ile sunucu arasında zaman dilimi farkı varsa eşitle
+                    ClockSkew = TimeSpan.Zero // bu bitince yeni token gerekir
+                };
+            });
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -50,6 +68,7 @@ namespace WebApi
             services.AddSingleton<ILoggerService, ConsoleLogger>();
             // alt alta aynı şeyi eklersen ikinci çalışır
             //services.AddSingleton<ILoggerService, DBLogger>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +80,9 @@ namespace WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi v1"));
             }
+
+            //Buraya yetkilendirme ekle
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
 

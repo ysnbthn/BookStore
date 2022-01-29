@@ -1,5 +1,6 @@
 using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Application.BookOperations.Commands.CreateBook;
 using WebApi.Application.BookOperations.Commands.DeleteBook;
@@ -11,7 +12,7 @@ using WebApi.DBOperations;
 namespace WebApi.Controllers
 {
     // Bunları parçalamamızın nedeni okunabilirliği ve yönetilebilirliği arttırmak
-
+    [Authorize] // Tokenı olmayan kullanıcı 401 hatası alır
     [ApiController] // api controller olduğunu belirt
     [Route("[controller]s")] // site/Book + s şeklinde ulaşılacak
     public class BookController : ControllerBase
