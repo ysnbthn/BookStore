@@ -12,12 +12,10 @@ namespace WebApi.Application.UserOperations.CreateToken
     {
         public CreateTokenModel Model { get; set; }
         private readonly IBookStoreDbContext _dbcontext;
-        private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
 
-        public CreateTokenCommand(IMapper mapper, IBookStoreDbContext dbcontext, IConfiguration configuration)
+        public CreateTokenCommand(IBookStoreDbContext dbcontext, IConfiguration configuration)
         {
-            _mapper = mapper;
             _dbcontext = dbcontext;
             _configuration = configuration;
         }
